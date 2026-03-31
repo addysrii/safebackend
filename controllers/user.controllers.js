@@ -100,9 +100,11 @@ const loginUser = asyncHandler(async (req, res) => {
     // Redirect to the appropriate dashboard based on user type
     switch (userType.toLowerCase()) {
         case 'admin':
-            return res
-                .status(200)
-                .cookie("accessToken", accessToken, options)
+            return res.json({
+                status:200,
+                tokem : accessToken
+            })
+                
                 .redirect(`/dashboard/admin?userId=${user.uid}`);
         case 'guard':
             return res
