@@ -88,7 +88,8 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Invalid user credentials");
     }
 
-    const accessToken = user.generateTokens();
+    const accessToken = user.generateacessToken();
+    console.log(accessToken)
 
     const options = {
         httpOnly: true,
