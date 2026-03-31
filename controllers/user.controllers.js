@@ -46,18 +46,18 @@ const registerAdmin = asyncHandler(async (req, res) => {
     // Redirect to the admin dashboard with the new ID after successful registration
     return res.redirect(`/dashboard/admin?userId=${uid}`);
 });
-
 const loginUser = asyncHandler(async (req, res) => {
-    const { userId, password, userType } = req.body; // userType can be 'admin', 'guard', or 'regular'
+    const { userId, password, userType } = req.body;
 
+    // ✅ Validate input
     if (!userId || !password || !userType) {
         throw new ApiError(400, "User ID, password, and user type are required");
     }
 
-    let user;
     let UserModel;
     let idField;
 
+    // ✅ Select model + ID field
     switch (userType.toLowerCase()) {
         case 'admin':
             UserModel = adminModel;
@@ -75,52 +75,42 @@ const loginUser = asyncHandler(async (req, res) => {
             throw new ApiError(400, "Invalid user type");
     }
 
-    user = await UserModel.findOne({ [idField]: userId });
+    // ✅ Find user
+    const user = await UserModel.findOne({ [idField]: userId });
 
     if (!user) {
         throw new ApiError(404, "User does not exist");
     }
 
-    // In a real app, you would compare hashed passwords
+    // ✅ Check password
     const isPasswordValid = await user.isPasswordCorrect(password);
 
     if (!isPasswordValid) {
         throw new ApiError(401, "Invalid user credentials");
     }
 
+    // ✅ Generate token
+    const accessToken = user.generateAccessToken();
 
-    const accessToken = user.generateAccessToken();;
-    console.log(accessToken)
-
+    // ✅ Cookie options (important fix for localhost)
     const options = {
         httpOnly: true,
-        secure: true
-    }
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "Strict"
+    };
 
-    // Redirect to the appropriate dashboard based on user type
-    switch (userType.toLowerCase()) {
-        case 'admin':
-            return res.json({
-                status:200,
-                tokem : accessToken
-            })
-                
-                .redirect(`/dashboard/admin?userId=${user.uid}`);
-        case 'guard':
-            return res
-                .status(200)
-                .cookie("accessToken", accessToken, options)
-                .redirect(`/dashboard/guard?userId=${user.guid}`);
-        case 'regular':
-            return res
-                .status(200)
-                .cookie("accessToken", accessToken, options,)
-                .redirect(`/dashboard/user?userId=${user._id.toString()}`);
-        default:
-            return res.redirect('/login'); // Fallback to login
-    }
+    // ✅ Send response (NO redirect here)
+    return res
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .json({
+            success: true,
+            message: "Login successful",
+            token: accessToken,
+            userType,
+            userId: user[idField]
+        });
 });
-
 const changePassword = asyncHandler(async (req, res) => {
     // This assumes the user is logged in. In a real app, user ID and type
     // would come from a JWT token, not the request body.
