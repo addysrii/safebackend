@@ -29,7 +29,7 @@ const createRegularUser = asyncHandler(async (req, res) => {
         }, "Regular user created successfully")
     );
 });
-const getAlluser = asynHandler(async(req,res) => {
+const getAlluser = asyncHandler(async(req,res) => {
     const data =  await regularUserModal.find()
         console.log(data)}
                                )
