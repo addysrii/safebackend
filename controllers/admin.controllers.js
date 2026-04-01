@@ -49,7 +49,7 @@ const getAlluser = asyncHandler(async(req,res) => {
  }
     }
    )
-const getAlluser = asyncHandler(async(req,res) => {
+const getAllguards = asyncHandler(async(req,res) => {
     try{
     const data =  await guardModel.find()
     
