@@ -84,5 +84,6 @@ module.exports = {
     createRegularUser,
     createGuard,
     viewAllVisitors,
-    checkVisitLogs
+    checkVisitLogs,
+    getAlluser
 };
