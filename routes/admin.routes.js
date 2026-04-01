@@ -4,7 +4,8 @@ const {
     createGuard,
     viewAllVisitors,
     checkVisitLogs,
-    getAlluser
+    getAlluser, 
+    getAllguards
 } = require("../controllers/admin.controllers.js");
 
 const router = Router();
@@ -15,4 +16,5 @@ router.route("/create-guard").post(createGuard);
 router.route("/visitors").get(viewAllVisitors);
 router.route("/logs").get(checkVisitLogs);
 router.route("/getusers").get(getAlluser)
+router.route("/getguards").get(getAllguards)
 module.exports = router;
