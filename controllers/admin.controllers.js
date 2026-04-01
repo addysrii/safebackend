@@ -32,6 +32,7 @@ const createRegularUser = asyncHandler(async (req, res) => {
 const getAlluser = asynHandler(async(req,res) => {
     const data =  await regularUserModal.find()
         console.log(data)}
+                               )
 const createGuard = asyncHandler(async (req, res) => {
     const { name, password } = req.body;
     const { adminId } = req.body; // This is the MongoDB _id
