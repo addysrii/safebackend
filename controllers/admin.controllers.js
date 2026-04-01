@@ -121,5 +121,6 @@ module.exports = {
     createGuard,
     viewAllVisitors,
     checkVisitLogs,
-    getAlluser
+    getAlluser,
+    getAllguards
 };
