@@ -30,7 +30,7 @@ const createRegularUser = asyncHandler(async (req, res) => {
     );
 });
 const getAlluser = asyncHandler(async(req,res) => {
-    const data =  await regularUserModal.find()
+    const data =  await regularUserModel.find()
         console.log(data)}
                                )
 const createGuard = asyncHandler(async (req, res) => {
