@@ -49,6 +49,26 @@ const getAlluser = asyncHandler(async(req,res) => {
  }
     }
    )
+const getAlluser = asyncHandler(async(req,res) => {
+    try{
+    const data =  await guardModel.find()
+    
+    res.status(200).json({
+        data,
+    })
+   
+    }
+   catch(err){
+
+  console.error("News fetch error",err)
+
+  res.status(500).json({
+   error:"Failed to fetch news"
+  })
+
+ }
+    }
+   )
 const createGuard = asyncHandler(async (req, res) => {
     const { name, password } = req.body;
     const { adminId } = req.body; // This is the MongoDB _id
