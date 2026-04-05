@@ -108,7 +108,8 @@ const loginUser = asyncHandler(async (req, res) => {
             message: "Login successful",
             token: accessToken,
             userType,
-            userId: user[idField]
+            userId: user[idField],
+            _id: user._id
         });
 });
 const changePassword = asyncHandler(async (req, res) => {
