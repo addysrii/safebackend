@@ -43,8 +43,10 @@ const registerAdmin = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Something went wrong while registering the admin");
     }
 
-    // Redirect to the admin dashboard with the new ID after successful registration
-    return res.redirect(`/dashboard/admin?userId=${uid}`);
+    // Return JSON instead of redirecting so the React Native client can handle it
+    return res.status(201).json(
+        new ApiResponse(201, { newUserId: uid }, "Admin registered successfully")
+    );
 });
 const loginUser = asyncHandler(async (req, res) => {
     const { userId, password, userType } = req.body;
